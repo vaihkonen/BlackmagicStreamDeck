@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Toggle Recording — Blackmagic Camera</title>
+  <link rel="stylesheet" href="sdpi.css" />
+</head>
+<body>
+<div class="sdpi-wrapper">
+
+  <div class="sdpi-heading">Camera Connection</div>
+
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Host</div>
+    <input class="sdpi-item-value" type="text" id="cameraHost"
+           placeholder="juhaninmicro.local" />
+  </div>
+
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Port</div>
+    <input class="sdpi-item-value" type="number" id="cameraPort"
+           min="1" max="65535" placeholder="443" />
+  </div>
+
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Username</div>
+    <input class="sdpi-item-value" type="text" id="username"
+           placeholder="vaihkonen" autocomplete="off" />
+  </div>
+
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Password</div>
+    <input class="sdpi-item-value" type="password" id="password"
+           autocomplete="off" />
+  </div>
+
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Use HTTPS</div>
+    <input class="sdpi-item-value" type="checkbox" id="useHttps" checked />
+  </div>
+
+  <hr class="sdpi-divider" />
+
+  <div id="statusBanner" class="sdpi-status info" style="display:none"></div>
+
+</div>
+
+<script src="sdpi.js"></script>
+<script>
+(function () {
+  var saveTimer = null;
+
+  function getById(id) { return document.getElementById(id); }
+
+  function populateGlobal(gs) {
+    getById("cameraHost").value  = gs.cameraHost  ?? "";
+    getById("cameraPort").value  = gs.cameraPort  ?? 443;
+    getById("username").value    = gs.username     ?? "";
+    getById("password").value    = gs.password     ?? "";
+    getById("useHttps").checked  = gs.useHttps !== false;
+  }
+
+  sdOnGlobalSettings(populateGlobal);
+
+  function scheduleGlobalSave() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveGlobal, 400);
+  }
+
+  function saveGlobal() {
+    sdSaveGlobalSettings({
+      cameraHost : getById("cameraHost").value.trim(),
+      cameraPort : parseInt(getById("cameraPort").value, 10) || 443,
+      username   : getById("username").value.trim(),
+      password   : getById("password").value,
+      useHttps   : getById("useHttps").checked,
+    });
+    showStatus("Settings saved.", "ok");
+  }
+
+  function showStatus(msg, type) {
+    var el = getById("statusBanner");
+    el.textContent  = msg;
+    el.className    = "sdpi-status " + type;
+    el.style.display = "block";
+    setTimeout(function () { el.style.display = "none"; }, 2500);
+  }
+
+  ["cameraHost","cameraPort","username","password"].forEach(function (id) {
+    getById(id).addEventListener("input", scheduleGlobalSave);
+  });
+  getById("useHttps").addEventListener("change", saveGlobal);
+  window.addEventListener("unload", saveGlobal);
+}());
+</script>
+</body>
+</html>

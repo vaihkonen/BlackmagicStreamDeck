@@ -1,0 +1,256 @@
+{
+  "$schema": "https://schemas.elgato.com/streamdeck/plugins/manifest.json",
+  "UUID": "com.juhani.blackmagic-camera",
+  "Name": "Blackmagic Camera Control",
+  "Version": "1.0.0.0",
+  "Author": "Juhani Vaihkonen",
+  "Description": "Control your Blackmagic camera directly from Stream Deck. Toggle recording, adjust ISO, shutter speed, white balance and trigger autofocus.",
+  "Category": "Blackmagic Camera",
+  "CategoryIcon": "imgs/plugin/category-icon",
+  "Icon": "imgs/plugin/marketplace",
+  "CodePath": "bin/plugin.js",
+  "SDKVersion": 2,
+  "Software": {
+    "MinimumVersion": "6.6"
+  },
+  "OS": [
+    {
+      "Platform": "mac",
+      "MinimumVersion": "10.15"
+    },
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Nodejs": {
+    "Version": "20",
+    "Debug": "enabled"
+  },
+  "Actions": [
+    {
+      "Name": "Toggle Recording",
+      "UUID": "com.juhani.blackmagic-camera.toggle-recording",
+      "Icon": "imgs/actions/recording/icon",
+      "Tooltip": "Start or stop recording on your Blackmagic camera.",
+      "Controllers": ["Keypad"],
+      "States": [
+        {
+          "Image": "imgs/actions/recording/key-idle",
+          "Title": "REC",
+          "TitleAlignment": "bottom",
+          "TitleColor": "#ffffff"
+        },
+        {
+          "Image": "imgs/actions/recording/key-active",
+          "Title": "STOP",
+          "TitleAlignment": "bottom",
+          "TitleColor": "#ff4444"
+        }
+      ],
+      "PropertyInspectorPath": "ui/toggle-recording.html"
+    },
+    {
+      "Name": "Adjust ISO",
+      "UUID": "com.juhani.blackmagic-camera.adjust-iso",
+      "Icon": "imgs/actions/iso/icon",
+      "Tooltip": "Step ISO up or down. Use as a button (configure direction) or dial (rotate to adjust).",
+      "Controllers": ["Keypad", "Encoder"],
+      "States": [
+        {
+          "Image": "imgs/actions/iso/key",
+          "TitleAlignment": "middle"
+        }
+      ],
+      "Encoder": {
+        "layout": "$A1",
+        "TriggerDescription": {
+          "Rotate": "Adjust ISO",
+          "Push": "Refresh",
+          "Touch": "Refresh"
+        }
+      },
+      "PropertyInspectorPath": "ui/adjust-iso.html"
+    },
+    {
+      "Name": "Adjust White Balance",
+      "UUID": "com.juhani.blackmagic-camera.adjust-white-balance",
+      "Icon": "imgs/actions/wb/icon",
+      "Tooltip": "Adjust white balance. Use as a button or dial (rotate = ±K, press = auto WB).",
+      "Controllers": ["Keypad", "Encoder"],
+      "States": [
+        {
+          "Image": "imgs/actions/wb/key",
+          "TitleAlignment": "middle"
+        }
+      ],
+      "Encoder": {
+        "layout": "$A1",
+        "TriggerDescription": {
+          "Rotate": "Adjust white balance",
+          "Push": "Auto white balance",
+          "Touch": "Refresh"
+        }
+      },
+      "PropertyInspectorPath": "ui/adjust-white-balance.html"
+    },
+    {
+      "Name": "Adjust Shutter",
+      "UUID": "com.juhani.blackmagic-camera.adjust-shutter",
+      "Icon": "imgs/actions/shutter/icon",
+      "Tooltip": "Step shutter speed/angle up or down. Use as a button or dial.",
+      "Controllers": ["Keypad", "Encoder"],
+      "States": [
+        {
+          "Image": "imgs/actions/shutter/key",
+          "TitleAlignment": "middle"
+        }
+      ],
+      "Encoder": {
+        "layout": "$A1",
+        "TriggerDescription": {
+          "Rotate": "Adjust shutter",
+          "Push": "Refresh",
+          "Touch": "Refresh"
+        }
+      },
+      "PropertyInspectorPath": "ui/adjust-shutter.html"
+    },
+    {
+      "Name": "Adjust Iris",
+      "UUID": "com.juhani.blackmagic-camera.adjust-iris",
+      "Icon": "imgs/actions/iris/icon",
+      "Tooltip": "Open or close the lens iris. Use as a button or dial.",
+      "Controllers": ["Keypad", "Encoder"],
+      "States": [
+        {
+          "Image": "imgs/actions/iso/key",
+          "TitleAlignment": "middle"
+        }
+      ],
+      "Encoder": {
+        "layout": "$A1",
+        "TriggerDescription": {
+          "Rotate": "Adjust iris",
+          "Push": "Refresh",
+          "Touch": "Refresh"
+        }
+      },
+      "PropertyInspectorPath": "ui/adjust-iris.html"
+    },
+    {
+      "Name": "Adjust Zoom",
+      "UUID": "com.juhani.blackmagic-camera.adjust-zoom",
+      "Icon": "imgs/actions/zoom/icon",
+      "Tooltip": "Zoom in or out. Use as a button or dial (requires motorised zoom lens).",
+      "Controllers": ["Keypad", "Encoder"],
+      "States": [
+        {
+          "Image": "imgs/actions/iso/key",
+          "TitleAlignment": "middle"
+        }
+      ],
+      "Encoder": {
+        "layout": "$A1",
+        "TriggerDescription": {
+          "Rotate": "Adjust zoom",
+          "Push": "Refresh",
+          "Touch": "Refresh"
+        }
+      },
+      "PropertyInspectorPath": "ui/adjust-zoom.html"
+    },
+    {
+      "Name": "Auto Focus",
+      "UUID": "com.juhani.blackmagic-camera.auto-focus",
+      "Icon": "imgs/actions/focus/icon",
+      "Tooltip": "Trigger auto focus on your Blackmagic camera (requires electronic lens).",
+      "Controllers": ["Keypad"],
+      "States": [
+        {
+          "Image": "imgs/actions/focus/key",
+          "TitleAlignment": "middle"
+        }
+      ],
+      "PropertyInspectorPath": "ui/auto-focus.html"
+    }
+  ]
+}
+      "UUID": "com.juhani.blackmagic-camera.toggle-recording",
+      "Icon": "imgs/actions/recording/icon",
+      "Tooltip": "Start or stop recording on your Blackmagic camera.",
+      "Controllers": ["Keypad"],
+      "States": [
+        {
+          "Image": "imgs/actions/recording/key-idle",
+          "Title": "REC",
+          "TitleAlignment": "bottom",
+          "TitleColor": "#ffffff"
+        },
+        {
+          "Image": "imgs/actions/recording/key-active",
+          "Title": "STOP",
+          "TitleAlignment": "bottom",
+          "TitleColor": "#ff4444"
+        }
+      ],
+      "PropertyInspectorPath": "ui/toggle-recording.html"
+    },
+    {
+      "Name": "Set ISO",
+      "UUID": "com.juhani.blackmagic-camera.set-iso",
+      "Icon": "imgs/actions/iso/icon",
+      "Tooltip": "Set ISO on your Blackmagic camera to a specific value.",
+      "Controllers": ["Keypad"],
+      "States": [
+        {
+          "Image": "imgs/actions/iso/key",
+          "TitleAlignment": "middle"
+        }
+      ],
+      "PropertyInspectorPath": "ui/set-iso.html"
+    },
+    {
+      "Name": "Set Shutter Speed",
+      "UUID": "com.juhani.blackmagic-camera.set-shutter",
+      "Icon": "imgs/actions/shutter/icon",
+      "Tooltip": "Set shutter speed on your Blackmagic camera.",
+      "Controllers": ["Keypad"],
+      "States": [
+        {
+          "Image": "imgs/actions/shutter/key",
+          "TitleAlignment": "middle"
+        }
+      ],
+      "PropertyInspectorPath": "ui/set-shutter.html"
+    },
+    {
+      "Name": "Set White Balance",
+      "UUID": "com.juhani.blackmagic-camera.set-white-balance",
+      "Icon": "imgs/actions/wb/icon",
+      "Tooltip": "Set white balance on your Blackmagic camera.",
+      "Controllers": ["Keypad"],
+      "States": [
+        {
+          "Image": "imgs/actions/wb/key",
+          "TitleAlignment": "middle"
+        }
+      ],
+      "PropertyInspectorPath": "ui/set-white-balance.html"
+    },
+    {
+      "Name": "Auto Focus",
+      "UUID": "com.juhani.blackmagic-camera.auto-focus",
+      "Icon": "imgs/actions/focus/icon",
+      "Tooltip": "Trigger auto focus on your Blackmagic camera (requires electronic lens).",
+      "Controllers": ["Keypad"],
+      "States": [
+        {
+          "Image": "imgs/actions/focus/key",
+          "TitleAlignment": "middle"
+        }
+      ],
+      "PropertyInspectorPath": "ui/auto-focus.html"
+    }
+  ]
+}

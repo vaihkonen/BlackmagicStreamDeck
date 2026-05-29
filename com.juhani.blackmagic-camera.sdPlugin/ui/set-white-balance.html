@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Set White Balance — Blackmagic Camera</title>
+  <link rel="stylesheet" href="sdpi.css" />
+</head>
+<body>
+<div class="sdpi-wrapper">
+
+  <div class="sdpi-heading">Camera Connection</div>
+
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Host</div>
+    <input class="sdpi-item-value" type="text" id="cameraHost"
+           placeholder="juhaninmicro.local" />
+  </div>
+
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Port</div>
+    <input class="sdpi-item-value" type="number" id="cameraPort"
+           min="1" max="65535" placeholder="443" />
+  </div>
+
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Username</div>
+    <input class="sdpi-item-value" type="text" id="username"
+           placeholder="vaihkonen" autocomplete="off" />
+  </div>
+
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Password</div>
+    <input class="sdpi-item-value" type="password" id="password"
+           autocomplete="off" />
+  </div>
+
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Use HTTPS</div>
+    <input class="sdpi-item-value" type="checkbox" id="useHttps" checked />
+  </div>
+
+  <hr class="sdpi-divider" />
+
+  <div class="sdpi-heading">White Balance</div>
+
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Preset</div>
+    <select class="sdpi-item-value" id="kelvinPreset">
+      <option value="2500">2500 K — Candlelight</option>
+      <option value="3200">3200 K — Tungsten</option>
+      <option value="4000">4000 K — Fluorescent</option>
+      <option value="4300">4300 K — Studio Lamp</option>
+      <option value="5000">5000 K — Daylight</option>
+      <option value="5600" selected>5600 K — Sunny</option>
+      <option value="6200">6200 K — Cloudy</option>
+      <option value="6500">6500 K — Overcast</option>
+      <option value="7500">7500 K — Shade</option>
+      <option value="custom">Custom…</option>
+    </select>
+  </div>
+
+  <div class="sdpi-item" id="customRow" style="display:none">
+    <div class="sdpi-item-label">Custom (K)</div>
+    <input class="sdpi-item-value" type="number" id="kelvinCustom"
+           min="2500" max="10000" step="100" placeholder="5600" />
+  </div>
+
+  <hr class="sdpi-divider" />
+
+  <div id="statusBanner" class="sdpi-status info" style="display:none"></div>
+
+</div>
+
+<script src="sdpi.js"></script>
+<script>
+(function () {
+  var saveTimer = null;
+
+  function getById(id) { return document.getElementById(id); }
+
+  function populateGlobal(gs) {
+    getById("cameraHost").value = gs.cameraHost ?? "";
+    getById("cameraPort").value = gs.cameraPort ?? 443;
+    getById("username").value   = gs.username   ?? "";
+    getById("password").value   = gs.password   ?? "";
+    getById("useHttps").checked = gs.useHttps !== false;
+  }
+
+  function populateAction(s) {
+    if (!s.kelvin) return;
+    var preset = getById("kelvinPreset");
+    var found = false;
+    for (var i = 0; i < preset.options.length; i++) {
+      if (preset.options[i].value === String(s.kelvin)) { found = true; break; }
+    }
+    if (found) {
+      preset.value = String(s.kelvin);
+      getById("customRow").style.display = "none";
+    } else {
+      preset.value = "custom";
+      getById("customRow").style.display = "flex";
+      getById("kelvinCustom").value = s.kelvin;
+    }
+  }
+
+  sdOnGlobalSettings(populateGlobal);
+  sdOnSettings(populateAction);
+
+  function resolvedKelvin() {
+    var preset = getById("kelvinPreset").value;
+    if (preset === "custom") {
+      return parseInt(getById("kelvinCustom").value, 10) || 5600;
+    }
+    return parseInt(preset, 10);
+  }
+
+  function validateKelvin(k) {
+    return k >= 2500 && k <= 10000;
+  }
+
+  function scheduleGlobalSave() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveAll, 400);
+  }
+
+  function saveAll() {
+    sdSaveGlobalSettings({
+      cameraHost : getById("cameraHost").value.trim(),
+      cameraPort : parseInt(getById("cameraPort").value, 10) || 443,
+      username   : getById("username").value.trim(),
+      password   : getById("password").value,
+      useHttps   : getById("useHttps").checked,
+    });
+    sdSaveSettings({ kelvin: resolvedKelvin() });
+    showStatus("Settings saved.", "ok");
+  }
+
+  function showStatus(msg, type) {
+    var el = getById("statusBanner");
+    el.textContent   = msg;
+    el.className     = "sdpi-status " + type;
+    el.style.display = "block";
+    setTimeout(function () { el.style.display = "none"; }, 2500);
+  }
+
+  getById("kelvinPreset").addEventListener("change", function () {
+    var isCustom = this.value === "custom";
+    getById("customRow").style.display = isCustom ? "flex" : "none";
+    if (!isCustom) saveAll();
+  });
+  getById("kelvinCustom").addEventListener("input", scheduleGlobalSave);
+
+  ["cameraHost","cameraPort","username","password"].forEach(function (id) {
+    getById(id).addEventListener("input", scheduleGlobalSave);
+  });
+  getById("useHttps").addEventListener("change", saveAll);
+  window.addEventListener("unload", saveAll);
+}());
+</script>
+</body>
+</html>

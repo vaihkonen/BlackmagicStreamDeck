@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Adjust Iris — Blackmagic Camera</title>
+  <link rel="stylesheet" href="sdpi.css" />
+</head>
+<body>
+<div class="sdpi-wrapper">
+
+  <div class="sdpi-heading">Camera Connection</div>
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Host</div>
+    <input class="sdpi-item-value" type="text" id="cameraHost" placeholder="juhaninmicro.local" />
+  </div>
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Port</div>
+    <input class="sdpi-item-value" type="number" id="cameraPort" min="1" max="65535" placeholder="443" />
+  </div>
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Username</div>
+    <input class="sdpi-item-value" type="text" id="username" placeholder="vaihkonen" autocomplete="off" />
+  </div>
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Password</div>
+    <input class="sdpi-item-value" type="password" id="password" autocomplete="off" />
+  </div>
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Use HTTPS</div>
+    <input class="sdpi-item-value" type="checkbox" id="useHttps" checked />
+  </div>
+
+  <hr class="sdpi-divider" />
+
+  <div class="sdpi-heading">Iris (Button mode)</div>
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Direction</div>
+    <select class="sdpi-item-value" id="direction">
+      <option value="up">↑ Open (lower f-number)</option>
+      <option value="down">↓ Close (higher f-number)</option>
+    </select>
+  </div>
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Step size</div>
+    <select class="sdpi-item-value" id="step">
+      <option value="1" selected>1 (fine)</option>
+      <option value="2">2</option>
+      <option value="5">5 (coarse)</option>
+    </select>
+  </div>
+  <div class="sdpi-item sdpi-info-label">
+    <span class="sdpi-item-value">Dial: rotate clockwise = open iris</span>
+  </div>
+
+</div>
+<script src="sdpi.js"></script>
+<script>
+(function () {
+  var saveTimer = null;
+  function getById(id) { return document.getElementById(id); }
+
+  function populateGlobal(gs) {
+    getById("cameraHost").value = gs.cameraHost ?? "";
+    getById("cameraPort").value = gs.cameraPort ?? 443;
+    getById("username").value   = gs.username   ?? "";
+    getById("password").value   = gs.password   ?? "";
+    getById("useHttps").checked = gs.useHttps !== false;
+  }
+  function populateAction(s) {
+    if (s.direction) getById("direction").value = s.direction;
+    if (s.step)      getById("step").value      = String(s.step);
+  }
+
+  sdOnGlobalSettings(populateGlobal);
+  sdOnSettings(populateAction);
+
+  function scheduleGlobalSave() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveAll, 400);
+  }
+  function saveAll() {
+    sdSaveGlobalSettings({
+      cameraHost: getById("cameraHost").value.trim(),
+      cameraPort: parseInt(getById("cameraPort").value, 10) || 443,
+      username:   getById("username").value.trim(),
+      password:   getById("password").value,
+      useHttps:   getById("useHttps").checked,
+    });
+    sdSaveSettings({
+      direction: getById("direction").value,
+      step:      parseInt(getById("step").value, 10),
+    });
+  }
+
+  ["cameraHost","cameraPort","username","password"].forEach(function (id) {
+    getById(id).addEventListener("input", scheduleGlobalSave);
+  });
+  getById("useHttps").addEventListener("change", saveAll);
+  getById("direction").addEventListener("change", saveAll);
+  getById("step").addEventListener("change", saveAll);
+  window.addEventListener("unload", saveAll);
+}());
+</script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Set Shutter Speed — Blackmagic Camera</title>
+  <link rel="stylesheet" href="sdpi.css" />
+</head>
+<body>
+<div class="sdpi-wrapper">
+
+  <div class="sdpi-heading">Camera Connection</div>
+
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Host</div>
+    <input class="sdpi-item-value" type="text" id="cameraHost"
+           placeholder="juhaninmicro.local" />
+  </div>
+
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Port</div>
+    <input class="sdpi-item-value" type="number" id="cameraPort"
+           min="1" max="65535" placeholder="443" />
+  </div>
+
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Username</div>
+    <input class="sdpi-item-value" type="text" id="username"
+           placeholder="vaihkonen" autocomplete="off" />
+  </div>
+
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Password</div>
+    <input class="sdpi-item-value" type="password" id="password"
+           autocomplete="off" />
+  </div>
+
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Use HTTPS</div>
+    <input class="sdpi-item-value" type="checkbox" id="useHttps" checked />
+  </div>
+
+  <hr class="sdpi-divider" />
+
+  <div class="sdpi-heading">Shutter Speed</div>
+
+  <div class="sdpi-item">
+    <div class="sdpi-item-label">Speed</div>
+    <select class="sdpi-item-value" id="shutterDenominator">
+      <option value="25">1/25 s</option>
+      <option value="30">1/30 s</option>
+      <option value="48">1/48 s</option>
+      <option value="50" selected>1/50 s</option>
+      <option value="60">1/60 s</option>
+      <option value="96">1/96 s</option>
+      <option value="100">1/100 s</option>
+      <option value="120">1/120 s</option>
+      <option value="125">1/125 s</option>
+      <option value="200">1/200 s</option>
+      <option value="250">1/250 s</option>
+      <option value="500">1/500 s</option>
+      <option value="1000">1/1000 s</option>
+      <option value="2000">1/2000 s</option>
+    </select>
+  </div>
+
+  <hr class="sdpi-divider" />
+
+  <div id="statusBanner" class="sdpi-status info" style="display:none"></div>
+
+</div>
+
+<script src="sdpi.js"></script>
+<script>
+(function () {
+  var saveTimer = null;
+
+  function getById(id) { return document.getElementById(id); }
+
+  function populateGlobal(gs) {
+    getById("cameraHost").value = gs.cameraHost ?? "";
+    getById("cameraPort").value = gs.cameraPort ?? 443;
+    getById("username").value   = gs.username   ?? "";
+    getById("password").value   = gs.password   ?? "";
+    getById("useHttps").checked = gs.useHttps !== false;
+  }
+
+  function populateAction(s) {
+    if (s.shutterDenominator) {
+      getById("shutterDenominator").value = String(s.shutterDenominator);
+    }
+  }
+
+  sdOnGlobalSettings(populateGlobal);
+  sdOnSettings(populateAction);
+
+  function scheduleGlobalSave() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveAll, 400);
+  }
+
+  function saveAll() {
+    sdSaveGlobalSettings({
+      cameraHost : getById("cameraHost").value.trim(),
+      cameraPort : parseInt(getById("cameraPort").value, 10) || 443,
+      username   : getById("username").value.trim(),
+      password   : getById("password").value,
+      useHttps   : getById("useHttps").checked,
+    });
+    sdSaveSettings({
+      shutterDenominator: parseInt(getById("shutterDenominator").value, 10),
+    });
+    showStatus("Settings saved.", "ok");
+  }
+
+  function showStatus(msg, type) {
+    var el = getById("statusBanner");
+    el.textContent   = msg;
+    el.className     = "sdpi-status " + type;
+    el.style.display = "block";
+    setTimeout(function () { el.style.display = "none"; }, 2500);
+  }
+
+  ["cameraHost","cameraPort","username","password"].forEach(function (id) {
+    getById(id).addEventListener("input", scheduleGlobalSave);
+  });
+  getById("useHttps").addEventListener("change", saveAll);
+  getById("shutterDenominator").addEventListener("change", saveAll);
+  window.addEventListener("unload", saveAll);
+}());
+</script>
+</body>
+</html>
