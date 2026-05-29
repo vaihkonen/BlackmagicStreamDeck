@@ -66,7 +66,7 @@ property inspector on the right. Fill in:
 |---|---|
 | **Host** | `juhaninmicro.local` or an IP address |
 | **Port** | `443` (HTTPS default) |
-| **Username** | `vaihkonen` |
+| **Username** | your camera username |
 | **Password** | your camera password |
 | **Use HTTPS** | ✓ (recommended) |
 
