@@ -383,6 +383,50 @@ export class BlackmagicClient {
     return (r.whiteBalanceTint as number) ?? 0;
   }
 
+  // ─── Video — Gain ──────────────────────────────────────────────────────────
+
+  async getGain(): Promise<number> {
+    const r = await this.makeRequest("GET", "/control/api/v1/video/gain");
+    return (r.gain as number) ?? 0;
+  }
+
+  async setGain(dB: number): Promise<void> {
+    await this.makeRequest("PUT", "/control/api/v1/video/gain", { gain: dB });
+  }
+
+  // ─── Lens — Manual Focus ──────────────────────────────────────────────────
+
+  async getLensFocus(): Promise<number> {
+    const r = await this.makeRequest("GET", "/control/api/v1/lens/focus");
+    return (r.normalised as number) ?? 0.5;
+  }
+
+  async setLensFocus(normalised: number): Promise<void> {
+    await this.makeRequest("PUT", "/control/api/v1/lens/focus", { normalised });
+  }
+
+  // ─── Colour Correction — Saturation ───────────────────────────────────────
+
+  async getSaturation(): Promise<number> {
+    const r = await this.makeRequest("GET", "/control/api/v1/colorCorrection/color");
+    return (r.saturation as number) ?? 1.0;
+  }
+
+  async setSaturation(saturation: number): Promise<void> {
+    await this.makeRequest("PUT", "/control/api/v1/colorCorrection/color", { saturation });
+  }
+
+  // ─── Colour Correction — Contrast ─────────────────────────────────────────
+
+  async getContrast(): Promise<number> {
+    const r = await this.makeRequest("GET", "/control/api/v1/colorCorrection/contrast");
+    return (r.adjust as number) ?? 1.0;
+  }
+
+  async setContrast(adjust: number): Promise<void> {
+    await this.makeRequest("PUT", "/control/api/v1/colorCorrection/contrast", { adjust });
+  }
+
   // ─── Connection test ──────────────────────────────────────────────────────
 
   async testConnection(): Promise<boolean> {

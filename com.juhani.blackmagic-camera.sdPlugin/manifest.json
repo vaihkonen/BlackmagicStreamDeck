@@ -195,84 +195,94 @@
         }
       ],
       "PropertyInspectorPath": "ui/auto-focus.html"
-    }
-  ]
-}
-      "UUID": "com.juhani.blackmagic-camera.toggle-recording",
-      "Icon": "imgs/actions/recording/icon",
-      "Tooltip": "Start or stop recording on your Blackmagic camera.",
-      "Controllers": ["Keypad"],
-      "States": [
-        {
-          "Image": "imgs/actions/recording/key-idle",
-          "Title": "REC",
-          "TitleAlignment": "bottom",
-          "TitleColor": "#ffffff"
-        },
-        {
-          "Image": "imgs/actions/recording/key-active",
-          "Title": "STOP",
-          "TitleAlignment": "bottom",
-          "TitleColor": "#ff4444"
-        }
-      ],
-      "PropertyInspectorPath": "ui/toggle-recording.html"
     },
     {
-      "Name": "Set ISO",
-      "UUID": "com.juhani.blackmagic-camera.set-iso",
+      "Name": "Adjust Gain",
+      "UUID": "com.juhani.blackmagic-camera.adjust-gain",
       "Icon": "imgs/actions/iso/icon",
-      "Tooltip": "Set ISO on your Blackmagic camera to a specific value.",
-      "Controllers": ["Keypad"],
+      "Tooltip": "Step gain (dB) up or down. Use as a button or dial.",
+      "Controllers": ["Keypad", "Encoder"],
       "States": [
         {
           "Image": "imgs/actions/iso/key",
           "TitleAlignment": "middle"
         }
       ],
-      "PropertyInspectorPath": "ui/set-iso.html"
-    },
-    {
-      "Name": "Set Shutter Speed",
-      "UUID": "com.juhani.blackmagic-camera.set-shutter",
-      "Icon": "imgs/actions/shutter/icon",
-      "Tooltip": "Set shutter speed on your Blackmagic camera.",
-      "Controllers": ["Keypad"],
-      "States": [
-        {
-          "Image": "imgs/actions/shutter/key",
-          "TitleAlignment": "middle"
+      "Encoder": {
+        "layout": "$A1",
+        "TriggerDescription": {
+          "Rotate": "Adjust gain",
+          "Push": "Refresh",
+          "Touch": "Refresh"
         }
-      ],
-      "PropertyInspectorPath": "ui/set-shutter.html"
+      },
+      "PropertyInspectorPath": "ui/adjust-gain.html"
     },
     {
-      "Name": "Set White Balance",
-      "UUID": "com.juhani.blackmagic-camera.set-white-balance",
-      "Icon": "imgs/actions/wb/icon",
-      "Tooltip": "Set white balance on your Blackmagic camera.",
-      "Controllers": ["Keypad"],
-      "States": [
-        {
-          "Image": "imgs/actions/wb/key",
-          "TitleAlignment": "middle"
-        }
-      ],
-      "PropertyInspectorPath": "ui/set-white-balance.html"
-    },
-    {
-      "Name": "Auto Focus",
-      "UUID": "com.juhani.blackmagic-camera.auto-focus",
+      "Name": "Manual Focus",
+      "UUID": "com.juhani.blackmagic-camera.adjust-focus",
       "Icon": "imgs/actions/focus/icon",
-      "Tooltip": "Trigger auto focus on your Blackmagic camera (requires electronic lens).",
-      "Controllers": ["Keypad"],
+      "Tooltip": "Pull focus near or far. Use as a button or dial (dial press = auto focus).",
+      "Controllers": ["Keypad", "Encoder"],
       "States": [
         {
           "Image": "imgs/actions/focus/key",
           "TitleAlignment": "middle"
         }
       ],
-      "PropertyInspectorPath": "ui/auto-focus.html"
+      "Encoder": {
+        "layout": "$A1",
+        "TriggerDescription": {
+          "Rotate": "Pull focus",
+          "Push": "Auto focus",
+          "Touch": "Refresh"
+        }
+      },
+      "PropertyInspectorPath": "ui/adjust-focus.html"
+    },
+    {
+      "Name": "Adjust Saturation",
+      "UUID": "com.juhani.blackmagic-camera.adjust-saturation",
+      "Icon": "imgs/actions/wb/icon",
+      "Tooltip": "Adjust colour saturation (0–2, default 1). Use as a button or dial.",
+      "Controllers": ["Keypad", "Encoder"],
+      "States": [
+        {
+          "Image": "imgs/actions/wb/key",
+          "TitleAlignment": "middle"
+        }
+      ],
+      "Encoder": {
+        "layout": "$A1",
+        "TriggerDescription": {
+          "Rotate": "Adjust saturation",
+          "Push": "Refresh",
+          "Touch": "Refresh"
+        }
+      },
+      "PropertyInspectorPath": "ui/adjust-saturation.html"
+    },
+    {
+      "Name": "Adjust Contrast",
+      "UUID": "com.juhani.blackmagic-camera.adjust-contrast",
+      "Icon": "imgs/actions/wb/icon",
+      "Tooltip": "Adjust contrast (0–2, default 1). Use as a button or dial.",
+      "Controllers": ["Keypad", "Encoder"],
+      "States": [
+        {
+          "Image": "imgs/actions/wb/key",
+          "TitleAlignment": "middle"
+        }
+      ],
+      "Encoder": {
+        "layout": "$A1",
+        "TriggerDescription": {
+          "Rotate": "Adjust contrast",
+          "Push": "Refresh",
+          "Touch": "Refresh"
+        }
+      },
+      "PropertyInspectorPath": "ui/adjust-contrast.html"
     }
   ]
 }

@@ -9,6 +9,10 @@ import { AdjustShutterAction } from "./actions/adjust-shutter";
 import { AdjustIrisAction } from "./actions/adjust-iris";
 import { AdjustZoomAction } from "./actions/adjust-zoom";
 import { AutoFocusAction } from "./actions/auto-focus";
+import { AdjustGainAction } from "./actions/adjust-gain";
+import { AdjustFocusAction } from "./actions/adjust-focus";
+import { AdjustSaturationAction } from "./actions/adjust-saturation";
+import { AdjustContrastAction } from "./actions/adjust-contrast";
 
 // Initialise the global-settings listener before registering actions
 initClientManager();
@@ -22,6 +26,10 @@ streamDeck.actions.registerAction(new AdjustShutterAction());
 streamDeck.actions.registerAction(new AdjustIrisAction());
 streamDeck.actions.registerAction(new AdjustZoomAction());
 streamDeck.actions.registerAction(new AutoFocusAction());
+streamDeck.actions.registerAction(new AdjustGainAction());
+streamDeck.actions.registerAction(new AdjustFocusAction());
+streamDeck.actions.registerAction(new AdjustSaturationAction());
+streamDeck.actions.registerAction(new AdjustContrastAction());
 
 // Connect to Stream Deck
 streamDeck.connect();
