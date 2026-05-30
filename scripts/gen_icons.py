@@ -81,6 +81,35 @@ def marketplace_pixels():
 
 write_png(f'{BASE}/plugin/marketplace.png', 144, 144, marketplace_pixels())
 
+# @2x high-resolution variant (288x288) — same design, double the pixels
+def marketplace_pixels_2x():
+    px = []
+    BG = (29, 29, 29, 255)
+    W = (220, 220, 220, 255)
+    R = (224, 60, 60, 255)
+    N = 288
+    for y in range(N):
+        for x in range(N):
+            in_body = (40 <= x <= 248) and (72 <= y <= 200)
+            on_body_edge = (in_body and
+                (x in range(40, 46) or x in range(243, 249) or y in range(72, 78) or y in range(195, 201)))
+            in_bump = (100 <= x <= 164) and (48 <= y <= 76)
+            on_bump_edge = (in_bump and
+                (x in range(100, 106) or x in range(159, 165) or y in range(48, 54) or y in range(70, 76)))
+            d2 = (x - 144) ** 2 + (y - 136) ** 2
+            on_lens_outer = abs(d2 - 40 ** 2) < 1600
+            on_lens_inner = abs(d2 - 20 ** 2) < 800
+            on_dot = (x - 210) ** 2 + (y - 92) ** 2 <= 256
+            if on_dot:
+                px.append(R)
+            elif on_body_edge or on_bump_edge or on_lens_outer or on_lens_inner:
+                px.append(W)
+            else:
+                px.append(BG)
+    return px
+
+write_png(f'{BASE}/plugin/marketplace@2x.png', 288, 288, marketplace_pixels_2x())
+
 # ── Recording ─────────────────────────────────────────────────────────────────
 
 svg(f'{BASE}/actions/recording/icon.svg', f"""
