@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+
+  <rect width="72" height="72" fill="#1d1d1d"/>
+  <circle cx="36" cy="32" r="16" fill="none" stroke="#dcdcdc" stroke-width="3"/>
+  <line x1="36" y1="18" x2="36" y2="46" stroke="#1d1d1d" stroke-width="3"/>
+  <line x1="22" y1="24" x2="50" y2="40" stroke="#1d1d1d" stroke-width="3"/>
+  <line x1="22" y1="40" x2="50" y2="24" stroke="#1d1d1d" stroke-width="3"/>
+  <circle cx="36" cy="32" r="5" fill="#dcdcdc"/>
+  <text x="36" y="60" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" fill="#dcdcdc">SHUTTER</text>
+
+</svg>

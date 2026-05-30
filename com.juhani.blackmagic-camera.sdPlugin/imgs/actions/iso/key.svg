@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+
+  <rect width="72" height="72" fill="#1d1d1d"/>
+  <text x="36" y="30" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="bold" fill="#dcdcdc">ISO</text>
+  <line x1="14" y1="38" x2="58" y2="38" stroke="#dcdcdc" stroke-width="2" opacity="0.4"/>
+  <text x="36" y="54" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" font-weight="bold" fill="#dcdcdc">▲▼</text>
+
+</svg>

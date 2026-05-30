@@ -4,13 +4,16 @@
   "description": "Stream Deck plugin for controlling a Blackmagic camera",
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
-    "watch": "rollup -c -w --watch.onEnd=\"streamdeck restart com.juhani.blackmagic-camera\""
+    "watch": "rollup -c -w --watch.onEnd=\"streamdeck restart com.juhani.blackmagic-camera\"",
+    "validate": "streamdeck validate com.juhani.blackmagic-camera.sdPlugin",
+    "pack": "streamdeck pack com.juhani.blackmagic-camera.sdPlugin"
   },
   "dependencies": {
     "@elgato/streamdeck": "^2.0.0",
     "multicast-dns": "^7.2.5"
   },
   "devDependencies": {
+    "@elgato/cli": "^1.7.4",
     "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@rollup/plugin-typescript": "^11.0.0",

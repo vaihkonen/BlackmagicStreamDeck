@@ -5,7 +5,7 @@
   "Version": "1.0.0.0",
   "Author": "Juhani Vaihkonen",
   "Description": "Control your Blackmagic camera directly from Stream Deck. Toggle recording, adjust ISO, shutter speed, white balance and trigger autofocus.",
-  "Category": "Blackmagic Camera",
+  "Category": "Blackmagic Camera Control",
   "CategoryIcon": "imgs/plugin/category-icon",
   "Icon": "imgs/plugin/marketplace",
   "CodePath": "bin/plugin.js",
@@ -33,7 +33,9 @@
       "UUID": "com.juhani.blackmagic-camera.toggle-recording",
       "Icon": "imgs/actions/recording/icon",
       "Tooltip": "Start or stop recording on your Blackmagic camera.",
-      "Controllers": ["Keypad"],
+      "Controllers": [
+        "Keypad"
+      ],
       "States": [
         {
           "Image": "imgs/actions/recording/key-idle",
@@ -55,7 +57,10 @@
       "UUID": "com.juhani.blackmagic-camera.adjust-iso",
       "Icon": "imgs/actions/iso/icon",
       "Tooltip": "Step ISO up or down. Use as a button (configure direction) or dial (rotate to adjust).",
-      "Controllers": ["Keypad", "Encoder"],
+      "Controllers": [
+        "Keypad",
+        "Encoder"
+      ],
       "States": [
         {
           "Image": "imgs/actions/iso/key",
@@ -77,7 +82,10 @@
       "UUID": "com.juhani.blackmagic-camera.adjust-white-balance",
       "Icon": "imgs/actions/wb/icon",
       "Tooltip": "Adjust white balance. Use as a button or dial (rotate = ±K, press = auto WB).",
-      "Controllers": ["Keypad", "Encoder"],
+      "Controllers": [
+        "Keypad",
+        "Encoder"
+      ],
       "States": [
         {
           "Image": "imgs/actions/wb/key",
@@ -99,7 +107,10 @@
       "UUID": "com.juhani.blackmagic-camera.adjust-tint",
       "Icon": "imgs/actions/wb/icon",
       "Tooltip": "Adjust white balance tint (green/magenta offset, −50 to +50). Use as a button or dial.",
-      "Controllers": ["Keypad", "Encoder"],
+      "Controllers": [
+        "Keypad",
+        "Encoder"
+      ],
       "States": [
         {
           "Image": "imgs/actions/wb/key",
@@ -121,7 +132,10 @@
       "UUID": "com.juhani.blackmagic-camera.adjust-shutter",
       "Icon": "imgs/actions/shutter/icon",
       "Tooltip": "Step shutter speed/angle up or down. Use as a button or dial.",
-      "Controllers": ["Keypad", "Encoder"],
+      "Controllers": [
+        "Keypad",
+        "Encoder"
+      ],
       "States": [
         {
           "Image": "imgs/actions/shutter/key",
@@ -143,7 +157,10 @@
       "UUID": "com.juhani.blackmagic-camera.adjust-iris",
       "Icon": "imgs/actions/iris/icon",
       "Tooltip": "Open or close the lens iris. Use as a button or dial.",
-      "Controllers": ["Keypad", "Encoder"],
+      "Controllers": [
+        "Keypad",
+        "Encoder"
+      ],
       "States": [
         {
           "Image": "imgs/actions/iso/key",
@@ -165,7 +182,10 @@
       "UUID": "com.juhani.blackmagic-camera.adjust-zoom",
       "Icon": "imgs/actions/zoom/icon",
       "Tooltip": "Zoom in or out. Use as a button or dial (requires motorised zoom lens).",
-      "Controllers": ["Keypad", "Encoder"],
+      "Controllers": [
+        "Keypad",
+        "Encoder"
+      ],
       "States": [
         {
           "Image": "imgs/actions/iso/key",
@@ -187,7 +207,9 @@
       "UUID": "com.juhani.blackmagic-camera.auto-focus",
       "Icon": "imgs/actions/focus/icon",
       "Tooltip": "Trigger auto focus on your Blackmagic camera (requires electronic lens).",
-      "Controllers": ["Keypad"],
+      "Controllers": [
+        "Keypad"
+      ],
       "States": [
         {
           "Image": "imgs/actions/focus/key",
@@ -201,7 +223,10 @@
       "UUID": "com.juhani.blackmagic-camera.adjust-gain",
       "Icon": "imgs/actions/iso/icon",
       "Tooltip": "Step gain (dB) up or down. Use as a button or dial.",
-      "Controllers": ["Keypad", "Encoder"],
+      "Controllers": [
+        "Keypad",
+        "Encoder"
+      ],
       "States": [
         {
           "Image": "imgs/actions/iso/key",
@@ -223,7 +248,10 @@
       "UUID": "com.juhani.blackmagic-camera.adjust-focus",
       "Icon": "imgs/actions/focus/icon",
       "Tooltip": "Pull focus near or far. Use as a button or dial (dial press = auto focus).",
-      "Controllers": ["Keypad", "Encoder"],
+      "Controllers": [
+        "Keypad",
+        "Encoder"
+      ],
       "States": [
         {
           "Image": "imgs/actions/focus/key",
@@ -245,7 +273,10 @@
       "UUID": "com.juhani.blackmagic-camera.adjust-saturation",
       "Icon": "imgs/actions/wb/icon",
       "Tooltip": "Adjust colour saturation (0–2, default 1). Use as a button or dial.",
-      "Controllers": ["Keypad", "Encoder"],
+      "Controllers": [
+        "Keypad",
+        "Encoder"
+      ],
       "States": [
         {
           "Image": "imgs/actions/wb/key",
@@ -267,7 +298,10 @@
       "UUID": "com.juhani.blackmagic-camera.adjust-contrast",
       "Icon": "imgs/actions/wb/icon",
       "Tooltip": "Adjust contrast (0–2, default 1). Use as a button or dial.",
-      "Controllers": ["Keypad", "Encoder"],
+      "Controllers": [
+        "Keypad",
+        "Encoder"
+      ],
       "States": [
         {
           "Image": "imgs/actions/wb/key",
