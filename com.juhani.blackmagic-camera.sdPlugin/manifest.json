@@ -95,6 +95,28 @@
       "PropertyInspectorPath": "ui/adjust-white-balance.html"
     },
     {
+      "Name": "Adjust Tint",
+      "UUID": "com.juhani.blackmagic-camera.adjust-tint",
+      "Icon": "imgs/actions/wb/icon",
+      "Tooltip": "Adjust white balance tint (green/magenta offset, −50 to +50). Use as a button or dial.",
+      "Controllers": ["Keypad", "Encoder"],
+      "States": [
+        {
+          "Image": "imgs/actions/wb/key",
+          "TitleAlignment": "middle"
+        }
+      ],
+      "Encoder": {
+        "layout": "$A1",
+        "TriggerDescription": {
+          "Rotate": "Adjust tint",
+          "Push": "Refresh",
+          "Touch": "Refresh"
+        }
+      },
+      "PropertyInspectorPath": "ui/adjust-tint.html"
+    },
+    {
       "Name": "Adjust Shutter",
       "UUID": "com.juhani.blackmagic-camera.adjust-shutter",
       "Icon": "imgs/actions/shutter/icon",
