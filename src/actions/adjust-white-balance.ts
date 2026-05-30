@@ -5,6 +5,7 @@ import streamDeck, {
   type KeyDownEvent,
   SingletonAction,
   type WillAppearEvent,
+  type WillDisappearEvent,
 } from "@elgato/streamdeck";
 import { getCameraClient } from "../camera/client-manager";
 
@@ -14,14 +15,25 @@ interface WBSettings {
 
 /**
  * Adjust white balance up or down.
- * - Key button: each press moves WB by the configured step in Kelvin.
+ * - Key button: each press moves WB by 100 K in the configured direction.
  * - Encoder dial: rotate to adjust; clockwise = warmer (higher K).
  * - Encoder press: trigger auto white balance.
+ *
+ * All active instances (e.g. two buttons: one up, one down) are kept in sync —
+ * whenever any button changes the WB, every button refreshes its title.
  */
 @action({ UUID: "com.juhani.blackmagic-camera.adjust-white-balance" })
 export class AdjustWhiteBalanceAction extends SingletonAction {
+  /** All currently visible action contexts keyed by context id */
+  private readonly contexts = new Map<string, WillAppearEvent["action"]>();
+
   override async onWillAppear(ev: WillAppearEvent): Promise<void> {
+    this.contexts.set(ev.action.id, ev.action);
     await this.refresh(ev.action);
+  }
+
+  override async onWillDisappear(ev: WillDisappearEvent): Promise<void> {
+    this.contexts.delete(ev.action.id);
   }
 
   override async onKeyDown(ev: KeyDownEvent): Promise<void> {
@@ -38,7 +50,9 @@ export class AdjustWhiteBalanceAction extends SingletonAction {
     if (!client) return;
     try {
       await client.doAutoWhiteBalance();
-      await this.refresh(ev.action);
+      // Read back the new value and broadcast to all buttons
+      const wb = await client.getWhiteBalance();
+      await this.broadcastDisplay(wb);
     } catch (err) {
       streamDeck.logger.error(`Auto WB failed: ${err}`);
     }
@@ -49,10 +63,10 @@ export class AdjustWhiteBalanceAction extends SingletonAction {
     if (!client) { await action.showAlert(); return; }
     try {
       const current = await client.getWhiteBalance();
-      // Round to nearest 100K for clean values
       const newWB = Math.max(2500, Math.min(10000, Math.round((current + delta) / 100) * 100));
       await client.setWhiteBalance(newWB);
-      await this.updateDisplay(action, newWB);
+      // Update every visible WB button, not just the one that was pressed
+      await this.broadcastDisplay(newWB);
     } catch (err) {
       streamDeck.logger.error(`Adjust WB failed: ${err}`);
       await action.showAlert();
@@ -66,6 +80,11 @@ export class AdjustWhiteBalanceAction extends SingletonAction {
       const wb = await client.getWhiteBalance();
       await this.updateDisplay(action, wb);
     } catch { /* camera may be offline */ }
+  }
+
+  /** Push a WB value to every currently visible instance of this action. */
+  private async broadcastDisplay(kelvin: number): Promise<void> {
+    await Promise.all([...this.contexts.values()].map(ctx => this.updateDisplay(ctx, kelvin)));
   }
 
   private async updateDisplay(action: WillAppearEvent["action"], kelvin: number): Promise<void> {
