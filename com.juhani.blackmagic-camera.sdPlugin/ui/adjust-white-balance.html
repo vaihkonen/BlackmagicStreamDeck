@@ -40,16 +40,8 @@
       <option value="down">↓ Cooler (lower K)</option>
     </select>
   </div>
-  <div class="sdpi-item">
-    <div class="sdpi-item-label">Step (K)</div>
-    <select class="sdpi-item-value" id="step">
-      <option value="100">100 K</option>
-      <option value="200">200 K</option>
-      <option value="500" selected>500 K</option>
-    </select>
-  </div>
   <div class="sdpi-item sdpi-info-label">
-    <span class="sdpi-item-value">Dial: rotate = adjust K, press = auto WB</span>
+    <span class="sdpi-item-value">Step: 100 K | Dial press = auto WB</span>
   </div>
 
 </div>
@@ -68,7 +60,6 @@
   }
   function populateAction(s) {
     if (s.direction) getById("direction").value = s.direction;
-    if (s.step)      getById("step").value      = String(s.step);
   }
 
   sdOnGlobalSettings(populateGlobal);
@@ -88,7 +79,6 @@
     });
     sdSaveSettings({
       direction: getById("direction").value,
-      step:      parseInt(getById("step").value, 10),
     });
   }
 
@@ -97,7 +87,6 @@
   });
   getById("useHttps").addEventListener("change", saveAll);
   getById("direction").addEventListener("change", saveAll);
-  getById("step").addEventListener("change", saveAll);
   window.addEventListener("unload", saveAll);
 }());
 </script>

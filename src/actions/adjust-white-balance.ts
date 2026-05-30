@@ -10,7 +10,6 @@ import { getCameraClient } from "../camera/client-manager";
 
 interface WBSettings {
   direction?: "up" | "down";
-  step?: number; // Kelvin per step (default 100)
 }
 
 /**
@@ -26,15 +25,12 @@ export class AdjustWhiteBalanceAction extends SingletonAction {
   }
 
   override async onKeyDown(ev: KeyDownEvent): Promise<void> {
-    const s = ev.payload.settings as WBSettings;
-    const step = s.step ?? 100;
-    const dir = s.direction === "down" ? -step : step;
+    const dir = (ev.payload.settings as WBSettings).direction === "down" ? -100 : 100;
     await this.adjust(ev.action, dir);
   }
 
   override async onDialRotate(ev: DialRotateEvent): Promise<void> {
-    const step = (ev.payload.settings as WBSettings).step ?? 100;
-    await this.adjust(ev.action, ev.payload.ticks * step);
+    await this.adjust(ev.action, ev.payload.ticks * 100);
   }
 
   override async onDialDown(ev: DialDownEvent): Promise<void> {
